@@ -1,0 +1,40 @@
+.home {
+    height: 75vh;
+    background-image: url('https://media.wired.com/photos/62d75d34ddaaa99a1df8e61d/master/pass/Phone-Camera-Webcam-Gear-GettyImages-1241495650.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(29, 161, 242, 0.7);
+}
+
+h2 {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+p {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background-color: white;
+    color: #1DA1F2;
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.btn:hover {
+    background-color: #1DA1F2;
+    color: white;
+    cursor: pointer;
+}
