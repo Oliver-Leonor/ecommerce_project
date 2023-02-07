@@ -1,18 +1,35 @@
 import { useState } from 'react'
-import usePut from '../customHooks/usePut'
 
 const UpdateProduct = ({ product }) => {
   const [name, setName] = useState(product?.name || '')
   const [description, setDescription] = useState(product?.description || '')
   const [price, setPrice] = useState(product?.price || '')
+  const [isLoadingg, setIsLoading] = useState(false)
   const id = product?._id
-  const [loading, error, putData] = usePut(
-    `https://capstone2-leonor.onrender.com/products/${id}`
-  )
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    await putData({ name, description, price })
+  const handleSubmit = async (e) => {
+    setIsLoading(true)
+
+    try {
+      const res = await fetch(
+        `https://capstone2-leonor.onrender.com/products/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ name, description, price }),
+        }
+      )
+      if (!res.ok) {
+        throw new Error(res.statusText)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+    setIsLoading(false)
+    alert('Product has been edited!')
   }
 
   return (
@@ -21,7 +38,6 @@ const UpdateProduct = ({ product }) => {
         <label>Name:</label>
         <input
           type='text'
-          id='name'
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -30,7 +46,6 @@ const UpdateProduct = ({ product }) => {
         <label>Description:</label>
         <textarea
           type='text'
-          id='description'
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -39,15 +54,13 @@ const UpdateProduct = ({ product }) => {
         <label>Price:</label>
         <input
           type='text'
-          id='price'
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
       </div>
       <button type='submit'>Update Product</button>
 
-      {loading && <p>Updating product...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {isLoadingg && <h5>Product is updating...</h5>}
     </form>
   )
 }
